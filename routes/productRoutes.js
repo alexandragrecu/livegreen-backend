@@ -12,7 +12,8 @@ router
 
 router
   .route('/scanCode')
-  .patch(authController.protectRoute, productController.scanBarCode);
+  .get(authController.protectRoute, productController.scanBarCode)
+  .patch(authController.protectRoute, productController.updatePoints)
 
 router
   .route('/:id')

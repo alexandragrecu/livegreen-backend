@@ -78,23 +78,10 @@ exports.scanBarCode = catchAsync(async (req, res, next) => {
   qrCode = qrCode.toString().trim();
   // get product with that qr code
   const product = await Product.findOne({ qrCode });
-  console.log("PRODUCT", product);
   if (!product) {
-    return next(new AppError('There is no product with this QR code', 404));
+    return next(new AppError('There is no product with this bar code', 404));
   }
 
-  // get the points of that product]
-  const points = product.getPoints();
-
-  // update points of user
-  const user = await User.findById(req.user._id);
-  if (!user) {
-    return next(
-      new AppError('You are not authorized to do this, please login', 403)
-    );
-  }
-  user.updatePoints(points);
-  user.save();
 
   // send response
   res.status(200).json({
@@ -102,3 +89,32 @@ exports.scanBarCode = catchAsync(async (req, res, next) => {
     data: product
   });
 });
+
+exports.updatePoints = catchAsync(async (req, res, next) => {
+    // get id of product from request
+    let { id } = req.body;
+    console.log("ID", id);
+    // get product with that qr code
+    const product = await Product.findById(id);
+    console.log("PRODUCT", product);
+
+    // get the points of that product
+    const points = product.getPoints();
+
+    // update points of user
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return next(
+        new AppError('You are not authorized to do this, please login', 403)
+      );
+    }
+    user.updatePoints(points);
+    user.save();
+
+    // send response
+    res.status(200).json({
+      status: 'success',
+      data: product
+    });
+  
+})
