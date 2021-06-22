@@ -52,7 +52,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   // const url = `${req.protocol}://localhost:4200/home`;
-  const url = 'http://127.0.0.1:3000/home';
+  const url = 'http://localhost:3000/home';
   // const url = `${req.protocol}://${req.get('host')}/home`;
   await new Email(newUser, url).sendWelcome();
   
