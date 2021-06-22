@@ -73,11 +73,17 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.scanBarCode = catchAsync(async (req, res, next) => {
+  console.log("REQQQ", req.body);
   // get qr code from frontend
   let { qrCode } = req.body;
+  if (!qrCode) {
+    return next(new AppError('Invalid qrCode', 404));
+  }
+  console.log("qrcodeee",);
   qrCode = qrCode.toString().trim();
   // get product with that qr code
   const product = await Product.findOne({ qrCode });
+  console.log("product", product);
   if (!product) {
     return next(new AppError('There is no product with this bar code', 404));
   }
@@ -93,10 +99,8 @@ exports.scanBarCode = catchAsync(async (req, res, next) => {
 exports.updatePoints = catchAsync(async (req, res, next) => {
     // get id of product from request
     let { id } = req.body;
-    console.log("ID", id);
     // get product with that qr code
     const product = await Product.findById(id);
-    console.log("PRODUCT", product);
 
     // get the points of that product
     const points = product.getPoints();

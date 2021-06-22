@@ -94,7 +94,6 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
   // get token
   let token;
 
-    console.log(req.headers);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
@@ -129,7 +128,6 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
 
   // user still exists?
   const user = await User.findById(decodedToken.id);
-  console.log("USEER", user);
 
   if (!user) {
     return next(new AppError('User does no longer exists!', 401));
