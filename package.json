@@ -1,0 +1,56 @@
+{
+  "name": "live-green-backend",
+  "version": "1.0.0",
+  "description": "Team 7 - Full Stack Squad",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "debug": "ndb server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unibuc-cs/Full-Stack-Squad---Backend.git"
+  },
+  "author": "Alexandra Grecu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unibuc-cs/Full-Stack-Squad---Backend/issues"
+  },
+  "homepage": "https://github.com/unibuc-cs/Full-Stack-Squad---Backend#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.0.1",
+    "express-rate-limit": "^5.2.3",
+    "helmet": "^4.2.0",
+    "hpp": "^0.2.3",
+    "html-to-text": "^6.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.9",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.4.17",
+    "pug": "^3.0.0",
+    "slugify": "^1.4.6",
+    "validator": "^13.1.17",
+    "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.4",
+    "ndb": "^1.1.5",
+    "prettier": "^2.1.2"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  }
+}
