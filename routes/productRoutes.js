@@ -12,7 +12,10 @@ router
 
 router
   .route('/scanCode')
-  .patch(authController.protectRoute, productController.scanBarCode)
+  .patch(authController.protectRoute, productController.scanBarCode);
+
+router
+  .route('/updatePointsAfterScan')
   .patch(authController.protectRoute, productController.updatePoints);
 
 router
