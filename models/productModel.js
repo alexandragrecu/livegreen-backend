@@ -5,24 +5,28 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, 'A product must have a name!'],
     unique: true,
-    trim: true
+    trim: true,
   },
   qrCode: {
-    type: String
+    type: String,
   },
   points: {
     type: Number,
-    required: [true, 'A product must have points!']
+    required: [true, 'A product must have points!'],
+  },
+  weight: {
+    type: Number,
+    required: [true, 'A product must have weight!'],
   },
   image: {
     type: String,
     trim: true,
-    required: [true, 'A product must have a photo!']
+    required: [true, 'A product must have a photo!'],
   },
   createdAt: {
     type: Date,
-    default: Date.now()
-  }
+    default: Date.now(),
+  },
 });
 
 productSchema.methods.getPoints = function () {
