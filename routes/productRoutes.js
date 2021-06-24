@@ -14,6 +14,8 @@ router
   .route('/scanCode')
   .patch(authController.protectRoute, productController.scanBarCode);
 
+router.route('/search').get(productController.getSpecificProduct);
+
 router
   .route('/updatePointsAfterScan')
   .patch(authController.protectRoute, productController.updatePoints);

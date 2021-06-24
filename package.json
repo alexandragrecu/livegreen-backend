@@ -4,7 +4,7 @@
   "description": "Team 7 - Full Stack Squad",
   "main": "app.js",
   "scripts": {
-    "start":  "NODE_ENV=production nodemon server.js", 
+    "start": "nodemon server.js",
     "debug": "ndb server.js",
     "start:prod": "NODE_ENV=production nodemon server.js"
   },

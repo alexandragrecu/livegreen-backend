@@ -126,3 +126,23 @@ exports.updatePoints = catchAsync(async (req, res, next) => {
     data: product,
   });
 });
+
+exports.getSpecificProduct = catchAsync(async (req, res, next) => {
+  const products = await Product.find();
+  console.log("nameee", req.query);
+  let name = req.query.name.trim().toLowerCase();
+
+  const foundProducts = [];
+
+  for (let i = 0; i < products.length; i++) {
+    
+    if (products[i].name.toLowerCase().includes(name)) {
+      foundProducts.push(products[i]);
+    }
+  }
+
+  res.status(200).json({
+    status: 'success',
+    products: foundProducts,
+  });
+});
