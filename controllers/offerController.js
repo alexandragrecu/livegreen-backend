@@ -14,8 +14,8 @@ exports.getOffers = catchAsync(async (req, res, next) => {
     status: 'success',
     numOffers: offers.length,
     data: {
-      offers
-    }
+      offers,
+    },
   });
 });
 
@@ -43,8 +43,8 @@ exports.getOffer = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      offer
-    }
+      offer,
+    },
   });
 });
 
@@ -54,15 +54,15 @@ exports.createOffer = catchAsync(async (req, res, next) => {
   res.status(201).json({
     status: 'success',
     data: {
-      offer: newOffer
-    }
+      offer: newOffer,
+    },
   });
 });
 
 exports.updateOffer = catchAsync(async (req, res, next) => {
   const offer = await Offer.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
-    runValidators: true
+    runValidators: true,
   });
 
   if (!offer) {
@@ -71,8 +71,8 @@ exports.updateOffer = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      offer
-    }
+      offer,
+    },
   });
 });
 
@@ -84,6 +84,24 @@ exports.deleteOffer = catchAsync(async (req, res, next) => {
   }
   res.status(204).json({
     status: 'success',
-    data: null
+    data: null,
+  });
+});
+
+exports.getSpecificOffer = catchAsync(async (req, res, next) => {
+  const offers = await Offer.find();
+  let name = req.query.name.trim().toLowerCase();
+
+  const foundOffers = [];
+
+  for (let i = 0; i < offers.length; i++) {
+    if (offers[i].name.toLowerCase().includes(name)) {
+      foundOffers.push(offers[i]);
+    }
+  }
+
+  res.status(200).json({
+    status: 'success',
+    offers: foundOffers,
   });
 });

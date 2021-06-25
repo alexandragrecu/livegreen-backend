@@ -10,6 +10,8 @@ router
   .get(authController.protectRoute, offerController.getOffers)
   .post(offerController.createOffer);
 
+router.route('/search').get(offerController.getSpecificOffer);
+
 router
   .route('/:id')
   .get(authController.protectRoute, offerController.getOffer)
