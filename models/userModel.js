@@ -48,6 +48,7 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
   rewards: [rewardSchema],
+  validatedPoints: { type: Boolean, default: false },
 });
 
 userSchema.pre('save', async function (next) {
@@ -69,6 +70,10 @@ userSchema.methods.addReward = function (id) {
 
 userSchema.methods.updatePoints = function (newPoints) {
   this.totalPoints += newPoints;
+};
+
+userSchema.methods.validatePoints = function () {
+  this.validatedPoints = true;
 };
 
 userSchema.methods.decreasePoints = function (newPoints) {

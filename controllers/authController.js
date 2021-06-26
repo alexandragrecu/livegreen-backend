@@ -7,9 +7,9 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Email = require('../utils/email');
 
-const signToken = id => {
+const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN
+    expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
@@ -19,7 +19,7 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true
+    httpOnly: true,
   };
 
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
@@ -32,8 +32,8 @@ const createSendToken = (user, statusCode, res) => {
     status: 'success',
     token,
     data: {
-      user
-    }
+      user,
+    },
   });
 };
 
@@ -48,14 +48,14 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
     totalPoints: req.body.totalPoints,
-    activeAccount: req.body.activeAccount
+    activeAccount: req.body.activeAccount,
   });
 
   // const url = `${req.protocol}://localhost:4200/home`;
   const url = 'http://localhost:3000/home';
   // const url = `${req.protocol}://${req.get('host')}/home`;
   await new Email(newUser, url).sendWelcome();
-  
+
   createSendToken(newUser, 201, res);
 });
 
@@ -85,7 +85,7 @@ exports.logout = (req, res) => {
   }
   res.cookie('jwt', 'logged-out', {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true
+    httpOnly: true,
   });
   res.status(200).json({ status: 'success' });
 };
@@ -98,7 +98,6 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
-  
     token = req.headers.authorization.split(' ')[1];
   }
   //  else if (req.cookies.jwt) {
@@ -148,6 +147,7 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
+    console.log('req', req);
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError('You do not have permission to perform this action!')
@@ -175,7 +175,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
       status: 'success',
-      message: 'Verify your email!'
+      message: 'Verify your email!',
     });
   } catch (err) {
     await user.save({ validateBeforeSave: false });

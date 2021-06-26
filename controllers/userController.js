@@ -119,3 +119,20 @@ exports.getRewards = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+exports.validatePoints = catchAsync(async (req, res, next) => {
+  const id = req.query.id;
+
+  const user = await User.findById(id);
+
+  if (!user) {
+    return next(new AppError('User not found!'));
+  }
+
+  user.validatePoints();
+
+  res.status(200).json({
+    status: 'success',
+    data: user,
+  });
+});

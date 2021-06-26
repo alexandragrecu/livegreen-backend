@@ -8,6 +8,13 @@ router
   .get('/user-data', authController.protectRoute, userController.getUser)
   .get('/', userController.getAllUsers);
 
+router.get(
+  '/validatePoints',
+  authController.protectRoute,
+  authController.restrictTo('admin'),
+  userController.validatePoints
+);
+
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
