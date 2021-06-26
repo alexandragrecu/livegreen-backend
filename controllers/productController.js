@@ -97,7 +97,6 @@ exports.scanBarCode = catchAsync(async (req, res, next) => {
 exports.updatePoints = catchAsync(async (req, res, next) => {
   // get id of product from request
   let { id } = req.body;
-  console.log('ID', id);
   // get product with that qr code
   const product = await Product.findById(id);
 
@@ -129,13 +128,11 @@ exports.updatePoints = catchAsync(async (req, res, next) => {
 
 exports.getSpecificProduct = catchAsync(async (req, res, next) => {
   const products = await Product.find();
-  console.log("nameee", req.query);
   let name = req.query.name.trim().toLowerCase();
 
   const foundProducts = [];
 
   for (let i = 0; i < products.length; i++) {
-    
     if (products[i].name.toLowerCase().includes(name)) {
       foundProducts.push(products[i]);
     }

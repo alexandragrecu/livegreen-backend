@@ -2,50 +2,52 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const rewardSchema = require('./rewardModel');
 
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: [true, 'Please tell us your first name!']
+    required: [true, 'Please tell us your first name!'],
   },
   lastName: {
-    type: String
+    type: String,
   },
   email: {
     type: String,
     required: [true, 'Please tell us your email address!'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Please tell us a valid email!']
+    validate: [validator.isEmail, 'Please tell us a valid email!'],
   },
   zipCode: String,
   role: {
     type: String,
     enum: ['user', 'admin'],
-    default: 'user'
+    default: 'user',
   },
   photo: String,
   password: {
     type: String,
     required: [true, 'Please tell us your password!'],
     minLength: 8,
-    select: false
+    select: false,
   },
   passwordChangedAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   totalPoints: {
     type: Number,
-    default: 0
+    default: 0,
   },
   passwordResetToken: String,
   passwordResetExpiresAt: Date,
   activeAccount: {
     type: Boolean,
     default: true,
-    select: false
-  }
+    select: false,
+  },
+  rewards: [rewardSchema],
 });
 
 userSchema.pre('save', async function (next) {
@@ -60,6 +62,10 @@ userSchema.pre(/^find/, function (next) {
   this.find({ activeAccount: { $ne: false } });
   next();
 });
+
+userSchema.methods.addReward = function (id) {
+  this.rewards.push({ offer_id: id });
+};
 
 userSchema.methods.updatePoints = function (newPoints) {
   this.totalPoints += newPoints;
@@ -99,9 +105,12 @@ userSchema.methods.matchedPasswords = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
   return await bcrypt.compare(candidatePassword, userPassword);
-}
+};
 
 const User = mongoose.model('User', userSchema);
 

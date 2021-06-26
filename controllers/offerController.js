@@ -35,6 +35,9 @@ exports.getOffer = catchAsync(async (req, res, next) => {
       new AppError('You are not authorized to do this, please login', 403)
     );
   }
+
+  user.addReward(offer._id);
+
   user.decreasePoints(points);
   user.save();
 
