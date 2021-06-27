@@ -15,6 +15,13 @@ router.patch(
   userController.validatePoints
 );
 
+router.get(
+  '/specific-user',
+  authController.protectRoute,
+  authController.restrictTo('admin'),
+  userController.getSpecificUser
+);
+
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);

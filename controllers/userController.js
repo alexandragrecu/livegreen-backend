@@ -138,3 +138,22 @@ exports.validatePoints = catchAsync(async (req, res, next) => {
     data: user,
   });
 });
+
+exports.getSpecificUser = catchAsync(async (req, res, next) => {
+  const users = await User.find();
+  let name = req.query.name.trim().toLowerCase();
+
+  const foundUsers = [];
+
+  for (let i = 0; i < users.length; i++) {
+    const userName = `${users[i].firstName} ${users[i].lastName}`;
+    if (userName.toLowerCase().includes(name)) {
+      foundUsers.push(users[i]);
+    }
+  }
+
+  res.status(200).json({
+    status: 'success',
+    users: foundUsers,
+  });
+});
