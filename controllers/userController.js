@@ -131,6 +131,8 @@ exports.validatePoints = catchAsync(async (req, res, next) => {
 
   user.validatePoints();
 
+  await user.save();
+
   res.status(200).json({
     status: 'success',
     data: user,

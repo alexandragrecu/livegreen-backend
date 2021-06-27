@@ -8,7 +8,7 @@ router
   .get('/user-data', authController.protectRoute, userController.getUser)
   .get('/', userController.getAllUsers);
 
-router.get(
+router.patch(
   '/validatePoints',
   authController.protectRoute,
   authController.restrictTo('admin'),
