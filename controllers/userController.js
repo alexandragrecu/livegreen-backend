@@ -3,6 +3,7 @@ const Offer = require('../models/offerModel');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const Email = require('../utils/email');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -40,6 +41,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
       zipCode: user.zipCode,
       totalPoints: user.totalPoints,
       role: user.role,
+      validatedPoints: user.validatedPoints,
     },
   });
 });
@@ -132,6 +134,11 @@ exports.validatePoints = catchAsync(async (req, res, next) => {
   user.validatePoints();
 
   await user.save();
+
+  // const url = `${req.protocol}://localhost:4200/home`;
+  const url = 'http://localhost:3000/offers';
+  // const url = `${req.protocol}://${req.get('host')}/home`;
+  await new Email(user, url).sendConfirmValidation();
 
   res.status(200).json({
     status: 'success',

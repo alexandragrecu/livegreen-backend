@@ -17,11 +17,11 @@ module.exports = class Email {
         service: 'SendGrid',
         auth: {
           user: process.env.SENDGRID_USERNAME,
-          pass: process.env.SENDGRID_PASSWORD
+          pass: process.env.SENDGRID_PASSWORD,
         },
         tls: {
-          rejectUnauthorized: false
-        }
+          rejectUnauthorized: false,
+        },
       });
     }
     return nodemailer.createTransport({
@@ -29,8 +29,8 @@ module.exports = class Email {
       port: process.env.EMAIL_PORT,
       auth: {
         user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD
-      }
+        pass: process.env.EMAIL_PASSWORD,
+      },
     });
   }
 
@@ -41,7 +41,7 @@ module.exports = class Email {
       {
         firstName: this.firstName,
         url: this.url,
-        subject
+        subject,
       }
     );
 
@@ -51,7 +51,7 @@ module.exports = class Email {
       to: this.to,
       subject,
       html,
-      text: htmlToText(html)
+      text: htmlToText(html),
     };
 
     // 3) create a transport and send email
@@ -71,5 +71,9 @@ module.exports = class Email {
 
   async sendOffer() {
     await this.send('offer', 'Congratulations! This is your prize!');
+  }
+
+  async sendConfirmValidation() {
+    await this.send('validatePoints', 'Your points were validated!');
   }
 };
